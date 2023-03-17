@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 
 class ReadAnsysResult:
-    def __init__(self, coord_path='', disp_path='', dx=0.02, unit='m'):
+    def __init__(self, coord_path='', disp_path='',  unit='m'):
         ''' return Pandas DataFrame along center x '''
 
 
