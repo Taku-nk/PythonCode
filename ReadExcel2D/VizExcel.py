@@ -1,3 +1,18 @@
+"""
+    import sys
+    sys.path.append("C:\\Users\\taku\\Hiroshima-U-Master\\OneDrive - Hiroshima University\\ドキュメント\\1kouza\\MasterResearch\\PythonCode\\ReadExcel2D")
+ 
+    from VizExcel import ExcelViewer, PlotExcel
+
+    file_path = '../results.xlsx'
+
+    excel_result = ExcelViewer(file_path)
+    print(excel_result.GetDataFRame())
+
+    plotter = PlotExcel()
+    #plotter.plotResult(excel_result, key='S11', hole_radius=1.0)
+    plotter.plotResult(excel_result, key='S11', hole_radius=None)
+"""
 # 2D Excel contour Plotter with arbitrary xyz value.
 import numpy as np
 import pandas as pd
@@ -31,11 +46,11 @@ class ExcelViewer():
 class PlotExcel():
     def __init__(self):
         # self.file_dir = file_dir
-        self.fig = plt.figure(figsize=(8, 6))
+        self.fig = plt.figure(figsize=(6, 4))
         self.ax = self.fig.add_subplot(111)
 
 
-    def plotResult(self, excelViewer, key='S11', hole_radius=None):
+    def plotResult(self, excelViewer, key='S11', hole_radius=None, contour_num=20):
         """ 
         Arguments
         - excel Viewer: ExcelViewer object,
@@ -61,16 +76,22 @@ class PlotExcel():
         
 
         # self.ax.tricontourf(x,y,value, 20)
-        self.ax.tricontourf(triang, value)
+        contour = self.ax.tricontourf(triang, value, contour_num)
+        self.ax.tricontour(triang, value, contour_num, colors='w', linewidths=0.5, linestyles='solid')
         self.ax.set_aspect('equal')
         self.ax.set_title(f'{key}')
         self.ax.set_xlabel('x')
         self.ax.set_ylabel('y')
+
+        plt.colorbar(contour, shrink=1, pad=0.05)
+        plt.tight_layout()
         plt.show()
 
 
 if __name__ == '__main__':
-    file_path = './exact.xlsx'
+    # file_path = './exact.xlsx'
+    # file_path = './results.xlsx'
+    file_path = '../results.xlsx'
 
     excel_result = ExcelViewer(file_path)
     # print(excel_result.GetDataFRame())
