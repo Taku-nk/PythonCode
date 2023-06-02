@@ -114,6 +114,7 @@ def debug_visualize_mesh(x, y, value, contour_num=20):
 
     plt.colorbar(contour, shrink=1, pad=0.05)
     plt.tight_layout()
+    plt.show()
  
     
 
