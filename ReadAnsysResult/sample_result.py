@@ -155,12 +155,50 @@ class ResultSampler:
 
         return interpolated_value
 
+
+    def sample_results(self, xs, ys, save_path=''):
+        """Sample interpolated result from original data. 
+        
+        This method uses scipy.interpolate.griddata function for interpolation.
+        griddata function returns nan value if sampled point is out of bounds.
+        This sampling can be 2D area or 1D line. Just specfy where you want to
+        sample by (xs, ys).
+
+        Args:
+            xs:  Array like. 1D array. shape=(n, ).
+            ys:  Array like. 1D array. shape=(n, ).
+            save_path: str, if you want to save sampled result, then give path.
+                if you specify nothing, then no saving happen.
+
+        Returns:
+            values: Pandas DataFrame. shape=(n, len(keys)+xs+ys).
+        """
+        sampled_df = pd.DataFrame({'x':xs, 'y':ys}) 
+        value_keys = self.result_df.columns[3:] # exclude 'Node ID', 'x' 'y'
+        
+        for key in value_keys:
+            sampled_value = self.sample_result(xs, ys, key)
+            sampled_df[key] = sampled_value
+
+
+        if save_path != '':
+            sampled_df.to_csv(save_path, index=False)
+            print("Sampled data was saved to '{}'".format(save_path))
+        
+
+        return sampled_df 
+        # return sampled_df.head();
+            
+            
+
+
+
     
     def __save_sampled_result(self, xs, ys, values, key, save_path):
         """Save sampled result using pandas DataFrame.
         """
         df = pd.DataFrame({'x':xs, 'y':ys, key:values})
-        print(df)
+        # print(df)
         df.to_csv(save_path, index=False)
         print("Sampled data was saved to '{}'".format(save_path))
      
@@ -169,6 +207,32 @@ class ResultSampler:
         """ Save original data frame """
         self.result_df.to_csv(file_path, index=False)
         print("Original data was save to '{}'".format(file_path))
+    
+
+def combine_csv_results(paths, save_path=''):
+    """ Combine separetely saved csv into one
+
+    Args:
+        paths: list of csv file path to be combined. csv file header must be
+            'x', 'y', 'value'
+
+    Returns:
+        None
+    """
+    combined_df = pd.read_csv(paths[0]).loc[:, ['x', 'y']]
+
+
+    for path in paths:
+        value_df = pd.read_csv(path).iloc[:, -1] # first two are 'x','y' last one is 'value'
+        combined_df = pd.concat((combined_df, value_df), axis=1)
+
+    # print(combined_df.head())
+
+    if save_path != '':
+        combined_df.to_csv(save_path, index=False)
+        print("Combined data was saved to '{}'".format(save_path))
+
+
 
 
         
@@ -191,20 +255,20 @@ if __name__ == '__main__':
 
     df = sampler.get_result_df()
 
-    xs = df.loc[:, 'x'].to_numpy()
-    ys = df.loc[:, 'y'].to_numpy()
-    u_pred = df.loc[:, 'disp_x'].to_numpy()
-    v_pred = df.loc[:, 'disp_y'].to_numpy()
-    sigma_y_pred = df.loc[:, 'stress_y'].to_numpy()
+    # xs = df.loc[:, 'x'].to_numpy()
+    # ys = df.loc[:, 'y'].to_numpy()
+    # u_pred = df.loc[:, 'disp_x'].to_numpy()
+    # v_pred = df.loc[:, 'disp_y'].to_numpy()
+    # sigma_y_pred = df.loc[:, 'stress_y'].to_numpy()
 
-    sampler_np = ResultSampler()
-    sampler_np.load_numpy_result(
-        xs, ys, 
-        value_dict={
-            'disp_x':u_pred,
-            'disp_y':v_pred,
-            'stress_y':sigma_y_pred
-            })
+    # sampler_np = ResultSampler()
+    # sampler_np.load_numpy_result(
+    #     xs, ys, 
+    #     value_dict={
+    #         'disp_x':u_pred,
+    #         'disp_y':v_pred,
+    #         'stress_y':sigma_y_pred
+    #         })
 
     
     # x_grid = np.linspace(1.5, 5, num=50)
@@ -217,10 +281,24 @@ if __name__ == '__main__':
     xs = np.linspace(1.5, 5, num=50)
     ys = np.zeros_like(xs)
 
-    values = sampler.sample_result(xs, ys, 'stress_y', 
-                save_path='./result_whole/sampled_stress_y_np.csv')
+    # values = sampler.sample_result(xs, ys, 'stress_y', 
+    #             save_path='./result_whole/sampled_stress_y_ansys.csv')
+
+    # _ = sampler.sample_result(xs, ys, 'stress_x', 
+    #             save_path='./result_whole/sampled_stress_x_ansys.csv')
 
     # b = plt.scatter(xs, ys, c=values)
+    # saved_df = pd.read_csv('./result_whole/sampled_stress_y_ansys.csv')
+    combine_csv_results(
+            [
+                './result_whole/sampled_stress_x_ansys.csv',
+                './result_whole/sampled_stress_y_ansys.csv',
+            ],
+            save_path = './result_whole/combined_values.csv')
+    # print(saved_df.head())
+
+    # print(sampler.sample_results(xs, ys, save_path='./result_whole/sampled_all.csv'))
+    
 
 
     # fig = plt.figure(figsize=(6,4))
@@ -233,6 +311,7 @@ if __name__ == '__main__':
     # plt.colorbar(b)
     
     # plt.plot(xs, values)
+    # ax.plot(xs, values)
     # plt.show()
     # print(sampler.get_result_df())
 
