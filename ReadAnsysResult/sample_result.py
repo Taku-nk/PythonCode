@@ -91,6 +91,9 @@ class ResultSampler:
             self.result_df[key_i] = df # append data
 
 
+        self.result_df.drop(columns=['Node ID'], inplace=True)
+
+
         # print(self.result_df.head())
     def load_numpy_result(self, xs, ys, value_dict, is_3d=False):
         """ Load numpy result
@@ -174,7 +177,7 @@ class ResultSampler:
             values: Pandas DataFrame. shape=(n, len(keys)+xs+ys).
         """
         sampled_df = pd.DataFrame({'x':xs, 'y':ys}) 
-        value_keys = self.result_df.columns[3:] # exclude 'Node ID', 'x' 'y'
+        value_keys = self.result_df.columns[2:] # exclude 'x' 'y'
         
         for key in value_keys:
             sampled_value = self.sample_result(xs, ys, key)
@@ -254,6 +257,8 @@ if __name__ == '__main__':
 
 
     df = sampler.get_result_df()
+    
+    # print(df)
 
     # xs = df.loc[:, 'x'].to_numpy()
     # ys = df.loc[:, 'y'].to_numpy()
@@ -280,6 +285,7 @@ if __name__ == '__main__':
 
     xs = np.linspace(1.5, 5, num=50)
     ys = np.zeros_like(xs)
+    sampler.sample_results(xs, ys, save_path='./result_whole/ansys_dropped_ID.csv')
 
     # values = sampler.sample_result(xs, ys, 'stress_y', 
     #             save_path='./result_whole/sampled_stress_y_ansys.csv')
