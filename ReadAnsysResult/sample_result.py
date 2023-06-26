@@ -118,6 +118,11 @@ class ResultSampler:
         # print(self.result_df)
 
 
+    def load_csv_result(self, file_path):
+        """load from saved csv result"""
+        self.result_df = pd.read_csv(file_path)
+
+
 
     def get_result_df(self):
         """Getter of result data frame"""

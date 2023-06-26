@@ -21,7 +21,8 @@ class FigPlot:
 
     def config(self):
         plt.rcParams["savefig.directory"] = "/Users/taku/Desktop"
-        plt.rcParams["savefig.format"] = 'eps'
+        # plt.rcParams["savefig.format"] = 'eps'
+        plt.rcParams["savefig.format"] = 'svg'
         # plt.rcParams['mathtext.fontset'] = 'stix'
         plt.rcParams['mathtext.fontset'] = 'cm'
         self.ax.locator_params(axis='x',nbins=6)
