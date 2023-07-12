@@ -88,6 +88,8 @@ class PlotExcel():
         plt.tight_layout()
         plt.show()
 
+
+
 def debug_visualize_mesh(x, y, value, contour_num=20):
     """ This function visualize data using triang.
 
@@ -95,6 +97,7 @@ def debug_visualize_mesh(x, y, value, contour_num=20):
         x    : array like. 
         y    : array like.
         value: array like.
+        contour_num: int. The number of contour line to be drawn.
 
     Returns:
         None

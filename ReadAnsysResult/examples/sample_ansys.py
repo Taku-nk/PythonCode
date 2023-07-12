@@ -1,6 +1,7 @@
 """ Sample Ansys result
 
 Sample ansys result from .txt and convert to csv at specified xs and ys.
+And save original Ansys result in .csv format.
 """
 
 from pathlib import Path
