@@ -14,7 +14,8 @@ from plot_2d import FigPlot, clip_df
 fig_plot = FigPlot(figsize=(4,3), fontsize=12)
 
 plt.rcParams["savefig.directory"] = "./"
-plt.rcParams['mathtext.fontset'] = 'cm'
+# plt.rcParams['mathtext.fontset'] = 'cm'
+plt.rcParams['mathtext.fontset'] = 'stix' # font looks like Times
 plt.rcParams['font.family'] = 'serif'
 plt.rcParams['font.serif'] = ['Times New Roman']
 plt.rcParams['font.sans-serif'] = ['Times New Roman'] 

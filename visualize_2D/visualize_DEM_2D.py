@@ -19,6 +19,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.tri as tri
+from matplotlib import ticker
 
 
 
@@ -119,6 +120,76 @@ def debug_visualize_mesh(x, y, value, contour_num=20):
     plt.tight_layout()
     plt.show()
  
+
+
+class Visualize2DFormat:
+    def __init__(self, figsize=(4, 3), fontsize=8):
+        self.fig = plt.figure(figsize=figsize)
+        self.ax = self.fig.add_subplot(111)
+
+        self.fontsize = fontsize 
+        self.small_fac = 0.8
+
+        self.config()
+
+
+    def config(self):
+        plt.rcParams["savefig.directory"] = "/Users/taku/Desktop"
+        # plt.rcParams["savefig.format"] = 'eps'
+        plt.rcParams["savefig.format"] = 'svg'
+        # plt.rcParams['mathtext.fontset'] = 'stix'
+        plt.rcParams['mathtext.fontset'] = 'cm'
+        self.ax.locator_params(axis='x',nbins=6)
+        self.ax.locator_params(axis='y',nbins=6)
+        self.ax.tick_params(axis='both', labelsize=self.fontsize*self.small_fac)
+
+        formatter = ticker.ScalarFormatter(useMathText=True)
+        formatter.set_scientific(True)
+        # formatter.set_powerlimits((-1,1))
+        self.ax.yaxis.set_major_formatter(formatter)
+
+        self.ax.yaxis.offsetText.set_fontsize(self.fontsize)
+
+        # self.ax.set_xlim(-5, 5)
+
+        # self.ax.set_title("Displacement z", fontsize=16, fontname="Times New Roman")
+        self.ax.set_xlabel("Coordinate $x$ [m]", fontsize=self.fontsize)
+        self.ax.set_ylabel("Value $u$ [m]", fontsize=self.fontsize)
+        # self.ax.grid(ls=':')
+
+        self.ax.set_aspect('equal')
+
+
+    def plot_mesh(self, x, y, value, contour_num=20, contour_line=True, cmap='viridis'):
+        """ This function visualize data using triang.
+
+        Args: 
+            x    : array like. 
+            y    : array like.
+            value: array like.
+            contour_num: int. The number of contour line to be drawn.
+            contour_line: bool. Specify whether plot contour line or not.
+
+        Returns:
+            None
+        """
+        
+        triang = tri.Triangulation(x, y)
+
+        contour = self.ax.tricontourf(triang, value, contour_num, cmap=cmap)
+
+        if contour_line:
+            self.ax.tricontour(triang, value, contour_num, colors='w', linewidths=0.5, linestyles='solid')
+
+        plt.colorbar(contour, shrink=1, pad=0.05)
+        plt.tight_layout()
+        plt.show()
+
+
+    # def show(self):
+    #     self.ax.legend(fontsize=self.fontsize*self.small_fac)
+    #     plt.tight_layout()
+    #     plt.show()
     
 
 
