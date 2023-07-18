@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt
 import matplotlib.tri as tri
 from matplotlib import ticker
 
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 
 class ExcelViewer():
@@ -181,7 +182,13 @@ class Visualize2DFormat:
         if contour_line:
             self.ax.tricontour(triang, value, contour_num, colors='w', linewidths=0.5, linestyles='solid')
 
-        plt.colorbar(contour, shrink=1, pad=0.05)
+
+        divider = make_axes_locatable(self.ax)
+        # cax = divider.append_axes("right", size="5%", pad=0.05) 
+        cax = divider.append_axes("right", size=0.15, pad=0.05) 
+
+        # plt.colorbar(contour, shrink=1, pad=0.05)
+        plt.colorbar(contour, cax=cax)
         plt.tight_layout()
         plt.show()
 

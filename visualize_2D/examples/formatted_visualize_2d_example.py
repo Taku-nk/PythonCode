@@ -32,8 +32,8 @@ plt.rcParams['font.sans-serif'] = ['Times New Roman']
 viz_format.ax.set_xlabel(r"$x$")
 viz_format.ax.set_ylabel(r"$y$")
 
-viz_format.ax.set_xlim(0, 1)
-viz_format.ax.set_ylim(0, 0.5)
+viz_format.ax.set_xlim(0.2, 0.4)
+viz_format.ax.set_ylim(0, 0.2)
 
 
 
@@ -46,6 +46,6 @@ df = pd.read_csv(file_path)
 # print(df.columns) -> ['x', 'y', 'disp_x', 'disp_y', 'stress_x', 'stress_y']
 xs = df.loc[:, 'x'].to_numpy()
 ys = df.loc[:, 'y'].to_numpy()
-val = df.loc[:, 'stress_x'].to_numpy()
+val = df.loc[:, 'stress_y'].to_numpy()
 
 viz_format.plot_mesh(xs, ys, val, contour_num=20, contour_line = False, cmap='viridis')
