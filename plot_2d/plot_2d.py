@@ -9,12 +9,12 @@ import pandas as pd
 
 
 class FigPlot:
-    def __init__(self, figsize=(4, 3), fontsize=8):
+    def __init__(self, figsize=(4, 3), fontsize=8, small_fac=0.8):
         self.fig = plt.figure(figsize=figsize)
         self.ax = self.fig.add_subplot(111)
 
         self.fontsize = fontsize 
-        self.small_fac = 0.8
+        self.small_fac = small_fac
 
         self.config()
 

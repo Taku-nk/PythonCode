@@ -22,7 +22,8 @@ import pandas as pd
 viz_format = VizFormat(figsize = (4, 3), fontsize=12)
 
 plt.rcParams["savefig.directory"] = "./"
-plt.rcParams['mathtext.fontset'] = 'cm'
+# plt.rcParams['mathtext.fontset'] = 'cm'
+plt.rcParams['mathtext.fontset'] = 'stix'
 plt.rcParams['font.family'] = 'serif'
 plt.rcParams['font.serif'] = ['Times New Roman']
 plt.rcParams['font.sans-serif'] = ['Times New Roman'] 
