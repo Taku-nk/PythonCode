@@ -92,7 +92,7 @@ class PlotExcel():
 
 
 
-def debug_visualize_mesh(x, y, value, contour_num=20):
+def debug_visualize_mesh(x, y, value, contour_num=20, contour_line=True):
     """ This function visualize data using triang.
 
     Args: 
@@ -112,7 +112,10 @@ def debug_visualize_mesh(x, y, value, contour_num=20):
     
 
     contour = ax.tricontourf(triang, value, contour_num)
-    ax.tricontour(triang, value, contour_num, colors='w', linewidths=0.5, linestyles='solid')
+    
+    if contour_line:
+        ax.tricontour(triang, value, contour_num, colors='w', linewidths=0.5, linestyles='solid')
+
     ax.set_aspect('equal')
     ax.set_xlabel('x')
     ax.set_ylabel('y')
