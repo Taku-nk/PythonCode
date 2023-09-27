@@ -16,6 +16,7 @@ class FigPlot:
         self.fontsize = fontsize 
         self.small_fac = small_fac
 
+        self.formatter = ticker.ScalarFormatter(useMathText=True)
         self.config()
 
 
@@ -29,12 +30,12 @@ class FigPlot:
         self.ax.locator_params(axis='y',nbins=6)
         self.ax.tick_params(axis='both', labelsize=self.fontsize*self.small_fac)
 
-        formatter = ticker.ScalarFormatter(useMathText=True)
-        formatter.set_scientific(True)
+        # formatter = ticker.ScalarFormatter(useMathText=True)
+        self.formatter.set_scientific(True)
         # formatter.set_powerlimits((-1,1))
-        self.ax.yaxis.set_major_formatter(formatter)
+        self.ax.yaxis.set_major_formatter(self.formatter)
 
-        self.ax.yaxis.offsetText.set_fontsize(self.fontsize)
+        self.ax.yaxis.offsetText.set_fontsize(self.fontsize*self.small_fac)
 
         # self.ax.set_xlim(-5, 5)
 
