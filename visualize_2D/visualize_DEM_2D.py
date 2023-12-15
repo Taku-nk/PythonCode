@@ -191,7 +191,9 @@ class Visualize2DFormat:
         cax = divider.append_axes("right", size=0.15, pad=0.05) 
 
         # plt.colorbar(contour, shrink=1, pad=0.05)
-        plt.colorbar(contour, cax=cax)
+        cbar = plt.colorbar(contour, cax=cax)
+        cbar.ax.tick_params(labelsize=self.fontsize*self.small_fac)
+
         plt.tight_layout()
         plt.show()
 
