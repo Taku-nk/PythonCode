@@ -28,9 +28,8 @@ plt.rcParams['font.family'] = 'serif'
 plt.rcParams['font.serif'] = ['Times New Roman']
 plt.rcParams['font.sans-serif'] = ['Times New Roman'] 
 
-
-viz_format.ax.set_xlabel(r"$x$")
-viz_format.ax.set_ylabel(r"$y$")
+viz_format.ax.set_xlabel(r"$x$", math_fontfamily='cm')
+viz_format.ax.set_ylabel(r"$y$", math_fontfamily='cm')
 
 viz_format.ax.set_xlim(0.2, 0.4)
 viz_format.ax.set_ylim(0, 0.2)
