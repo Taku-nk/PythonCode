@@ -26,6 +26,7 @@ class FigPlot:
         plt.rcParams["savefig.format"] = 'svg'
         # plt.rcParams['mathtext.fontset'] = 'stix'
         plt.rcParams['mathtext.fontset'] = 'cm'
+        plt.rcParams['legend.framealpha'] = 1.0
         self.ax.locator_params(axis='x',nbins=6)
         self.ax.locator_params(axis='y',nbins=6)
         self.ax.tick_params(axis='both', labelsize=self.fontsize*self.small_fac)
