@@ -164,7 +164,7 @@ class Visualize2DFormat:
         self.ax.set_aspect('equal')
 
 
-    def plot_mesh(self, x, y, value, contour_num=20, contour_line=True, cmap='viridis'):
+    def plot_mesh(self, x, y, value, contour_num=20, contour_line=True, cmap='viridis', save=True, fname='', extend='neither'):
         """ This function visualize data using triang.
 
         Args: 
@@ -180,7 +180,7 @@ class Visualize2DFormat:
         
         triang = tri.Triangulation(x, y)
 
-        contour = self.ax.tricontourf(triang, value, contour_num, cmap=cmap)
+        contour = self.ax.tricontourf(triang, value, contour_num, cmap=cmap, extend=extend)
 
         if contour_line:
             self.ax.tricontour(triang, value, contour_num, colors='w', linewidths=0.5, linestyles='solid')
@@ -195,6 +195,9 @@ class Visualize2DFormat:
         cbar.ax.tick_params(labelsize=self.fontsize*self.small_fac)
 
         plt.tight_layout()
+        if save==True:
+            plt.savefig(fname, bbox_inches='tight')
+
         plt.show()
 
 
