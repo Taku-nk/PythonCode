@@ -47,8 +47,9 @@ class FigPlot:
 
 
 
-    def show(self):
-        self.ax.legend(fontsize=self.fontsize*self.small_fac)
+    def show(self, legend=True):
+        if legend==True:
+            self.ax.legend(fontsize=self.fontsize*self.small_fac)
         plt.tight_layout()
         plt.show()
 
